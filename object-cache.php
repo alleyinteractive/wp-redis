@@ -712,36 +712,23 @@ class WP_Object_Cache {
 		$this->multisite = is_multisite();
 		$this->blog_prefix =  $this->multisite ? $blog_id . ':' : '';
 
-		if ( empty( $redis_server ) ) {
-			$redis_server = array( 'host' => '127.0.0.1', 'port' => 6379 );
-		}
+		if ( false === $redis_server ) {
+			$this->is_connected = false;
+		} else {
+			if ( empty( $redis_server ) ) {
+				$redis_server = array( 'host' => '127.0.0.1', 'port' => 6379 );
+			}
 
-		$this->redis = new Redis();
-		$this->is_connected = $this->redis->connect( $redis_server['host'], $redis_server['port'], 2 ); # 2s timeout
-		if ( $this->is_connected && ! empty( $redis_server['auth'] ) ) {
-			$this->redis->auth( $redis_server['auth'] );
+			$this->redis = new Redis();
+			$this->is_connected = $this->redis->connect( $redis_server['host'], $redis_server['port'], 2 ); # 2s timeout
+			if ( $this->is_connected && ! empty( $redis_server['auth'] ) ) {
+				$this->redis->auth( $redis_server['auth'] );
+			}
 		}
 
 		$this->global_prefix = '';
 		if ( function_exists( 'is_multisite' ) ) {
 			$this->global_prefix = ( is_multisite() || defined( 'CUSTOM_USER_TABLE' ) && defined( 'CUSTOM_USER_META_TABLE' ) ) ? '' : $table_prefix;
 		}
-
-		/**
-		 * @todo This should be moved to the PHP4 style constructor, PHP5
-		 * already calls __destruct()
-		 */
-		register_shutdown_function( array( $this, '__destruct' ) );
-	}
-
-	/**
-	 * Will save the object cache before object is completely destroyed.
-	 *
-	 * Called upon object destruction, which should be when PHP ends.
-	 *
-	 * @return bool True value. Won't be used by PHP
-	 */
-	function __destruct() {
-		return true;
 	}
 }
