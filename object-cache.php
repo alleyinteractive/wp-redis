@@ -703,6 +703,7 @@ class WP_Object_Cache {
 
 		if ( isset( $redis_server['socket'] ) ) {
 			$this->redis->connect( $redis_server['socket'] );
+		}
 		else {
 			$this->redis->connect( $redis_server['host'], $redis_server['port'], 1, NULL, 100 ); # 1s timeout, 100ms delay between reconnections
 		}
