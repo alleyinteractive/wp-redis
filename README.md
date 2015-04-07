@@ -18,6 +18,10 @@ Setup
 
         $redis_server = array( 'host' => '127.0.0.1', 'port' => 6379, 'auth' => '12345' );
 
+        or
+
+        $redis_server = array( 'socket' => '/tmp/redis.sock' );
+
 3. Optionally, add a unique salt for the keys:
 
         define( 'WP_CACHE_KEY_SALT', 'my-unique-phrase' );
