@@ -16,11 +16,15 @@ Setup
 1. Install `object-cache.php` to the `wp-content/object-cache.php`.
 2. In your `wp-config.php` file, add your server credentials:
 
-        $redis_server = array( 'host' => '127.0.0.1', 'port' => 6379, 'auth' => '12345' );
+  ```
+  $redis_server = array( 'host' => '127.0.0.1', 'port' => 6379, 'auth' => '12345' );
+  ```
 
-        or
+  or
 
-        $redis_server = array( 'socket' => '/tmp/redis.sock' );
+  ```
+  $redis_server = array( 'socket' => '/tmp/redis.sock' );
+  ```
 
 3. Optionally, add a unique salt for the keys:
 
